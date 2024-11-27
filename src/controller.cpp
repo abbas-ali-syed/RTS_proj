@@ -31,12 +31,13 @@ void Controller::update() {
     }
    
     // Process next train if available
-    Train* next_train = scheduler.getNextTrain();
-    if(next_train) {
-        if(station.allocateTrack(next_train->getId())) {
-            trainPositions[next_train->getId()] = 0.0f;
-        }
+   Train* next_train = scheduler.getNextTrain();
+if(next_train) {
+    if(station.allocateTrack(next_train->getId(), next_train->getEntryPoint())) {
+        float initial_pos = next_train->getEntryPoint() == "WEST" ? 0.0f : 800.0f;
+        trainPositions[next_train->getId()] = initial_pos;
     }
+}
    
     vis.updateDisplay();
 }

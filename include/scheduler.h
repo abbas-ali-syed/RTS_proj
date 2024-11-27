@@ -9,11 +9,16 @@ class Scheduler {
 public:
     bool loadSchedule(const std::string& filename);
     Train* getNextTrain();
+    Train* getTrain(int id);
     void updateSchedule();
+    bool hasTrainsToProcess() const;
 
 private:
     std::vector<Train> trains;
-    size_t current_index = 0;
+    std::vector<size_t> pending_trains;
+    std::time_t simulation_time;
+    
+    void sortPendingTrains();
 };
 
 #endif

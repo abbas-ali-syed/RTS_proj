@@ -35,7 +35,25 @@ void TrainStation::updateSwitches() {
         sw.position = !sw.position;
     }
 }
+bool TrainStation::allocateTrack(int train_id, const std::string& entry_point) {
+    std::vector<int>& entries = (entry_point == "WEST") ? left_entries : right_entries;
+    
+    for(int track_id : entries) {
+        if(!tracks[track_id].occupied) {
+            tracks[track_id].occupied = true;
+            tracks[track_id].light_status = false;
+            return true;
+        }
+    }
+    return false;
+}
 
+void TrainStation::releaseTrack(int track_id) {
+    if(track_id >= 0 && track_id < 8) {
+        tracks[track_id].occupied = false;
+        tracks[track_id].light_status = true;
+    }
+}
 int TrainStation::getTrainTrack(int train_id) const {
     for(size_t i = 0; i < tracks.size(); i++) {
         if(tracks[i].occupied) return i;
